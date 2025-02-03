@@ -1,0 +1,144 @@
+# GOOD HAMBURGER API
+
+## Descripción
+Esta es la documentación de la API para el sistema de pedidos en la hamburguesería "GOOD HAMBURGER". La API permite a los usuarios ver el menú, realizar pedidos y administrar órdenes.
+
+## Tecnologías utilizadas
+- Node.js
+- Express.js
+- MongoDB
+- Docker
+
+## Instalación y ejecución
+1. Clonar el repositorio:
+   ```bash
+   git clone git@github.com:JohnatanPalacios/good-hamburger-api.git
+   cd good_hamburger_api
+   ```
+2. Construir y correr el contenedor Docker:
+   ```bash
+   docker-compose up --build -d
+   ```
+3. La API estará disponible en `http://localhost:3000`
+
+---
+
+## Endpoints
+
+### Obtener el menú completo (sandwiches y extras)
+**GET** `/api/menu`
+
+#### Respuesta de ejemplo:
+```json
+{
+  "extras": [
+    {"id": "67a044f8d12949c6bf077e19", "name": "Soft drink", "price": 2.5},
+    {"id": "67a044f8d12949c6bf077e16", "name": "Fries", "price": 2}
+  ],
+  "sandwiches": [
+    {"id": "67a044f8d12949c6bf077e10", "name": "X Egg", "price": 4.5},
+    {"id": "67a044f8d12949c6bf077e0d", "name": "X Burger", "price": 5},
+    {"id": "67a044f8d12949c6bf077e13", "name": "X Bacon", "price": 7}
+  ]
+}
+```
+
+### Obtener solo sandwiches
+**GET** `/api/menu/sandwiches`
+
+#### Respuesta de ejemplo:
+```json
+[
+  {"id": "67a044f8d12949c6bf077e10", "name": "X Egg", "price": 4.5},
+  {"id": "67a044f8d12949c6bf077e0d", "name": "X Burger", "price": 5},
+  {"id": "67a044f8d12949c6bf077e13", "name": "X Bacon", "price": 7}
+]
+```
+
+### Obtener solo extras
+**GET** `/api/menu/extras`
+
+#### Respuesta de ejemplo:
+```json
+[
+  {"id": "67a044f8d12949c6bf077e19", "name": "Soft drink", "price": 2.5},
+  {"id": "67a044f8d12949c6bf077e16", "name": "Fries", "price": 2}
+]
+```
+
+### Realizar un pedido
+**POST** `/api/orders`
+
+#### Parámetros de entrada:
+```json
+{
+  "extras": [
+    "67a044f8d12949c6bf077e19",
+    "67a044f8d12949c6bf077e16"
+  ],
+  "sandwichId": "67a044f8d12949c6bf077e0d"
+}
+```
+
+#### Respuesta de ejemplo:
+```json
+{
+  "id": "67a057e568ef114b90c52260",
+  "sandwichId": "67a044f8d12949c6bf077e0d",
+  "extras": [
+    "67a044f8d12949c6bf077e19",
+    "67a044f8d12949c6bf077e16"
+  ],
+  "totalAmount": 7.6,
+  "discount": 0,
+  "createdAt": "2025-02-03T05:45:09.950Z",
+  "updatedAt": "2025-02-03T05:45:09.950Z"
+}
+```
+
+### Actualizar un pedido
+**PUT** `/api/orders/{id}`
+
+#### Parámetros de entrada:
+```json
+{
+  "sandwichId": "67a044f8d12949c6bf077e13",
+  "extras": [
+    "67a044f8d12949c6bf077e19",
+    "67a044f8d12949c6bf077e16"
+  ]
+}
+```
+
+#### Respuesta de ejemplo:
+```json
+{
+  "id": "67a057e568ef114b90c52260",
+  "sandwichId": "67a044f8d12949c6bf077e13",
+  "extras": [
+    "67a044f8d12949c6bf077e19",
+    "67a044f8d12949c6bf077e16"
+  ],
+  "totalAmount": 9.2,
+  "discount": 20,
+  "createdAt": "2025-02-03T05:45:09.950Z",
+  "updatedAt": "2025-02-03T05:53:30.823Z"
+}
+```
+
+### Listar todos los pedidos
+**GET** `/api/orders`
+
+#### Respuesta de ejemplo:
+```json
+[
+  {"id": "67a05a4353f2038712f2af55", "sandwichId": "67a044f8d12949c6bf077e0d", "extras": ["67a044f8d12949c6bf077e19"], "totalAmount": 6.38, "discount": 0},
+  {"id": "67a05a2053f2038712f2af51", "sandwichId": "67a044f8d12949c6bf077e10", "extras": ["67a044f8d12949c6bf077e19", "67a044f8d12949c6bf077e16"], "totalAmount": 7.2, "discount": 0},
+  {"id": "67a057e568ef114b90c52260", "sandwichId": "67a044f8d12949c6bf077e13", "extras": ["67a044f8d12949c6bf077e19", "67a044f8d12949c6bf077e16"], "totalAmount": 9.2, "discount": 20}
+]
+```
+
+---
+
+Próximamente se agregarán más endpoints y detalles sobre pruebas.
+
